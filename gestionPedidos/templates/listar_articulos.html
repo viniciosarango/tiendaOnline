@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <title>Tienda Online</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  
+    <!-- Template Main CSS File -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  
+  
+    <!-- =======================================================
+    * Template Name: Squadfree - v4.11.0
+    * Template URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top header-transparent">
+    <div class="container d-flex align-items-center justify-content-between position-relative">
+
+      <div class="logo">
+        <!-- <h1 class="text-light"><a href="index.html"><span>Squadfree</span></a></h1> -->
+        <!-- Uncomment below if you prefer to use an image logo -->
+       <a href='http://127.0.0.1:8000/'>Tienda Online</a>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="http://127.0.0.1:8000/">Inicio</a></li>
+          <li><a class="nav-link scrollto" href="http://127.0.0.1:8000/#portfolio">Artículos</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'gestion' %}">Gestion Artículos</a></li>
+          <li><a class="nav-link scrollto" href="http://127.0.0.1:8000/mostrarClientes">Clientes</a></li>
+          <li><a class="nav-link scrollto" href="/clientes/">Gestion Clientes</a></li>
+          <li><a class="nav-link scrollto" href=" {% url 'salir' %} ">Salir</a></li>
+          <li><a class="nav-link scrollto" href="#"> {{ user.username }} </a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+    <br><br><br><br>
+    <h3> Gestión Artículos</h3>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h3>Crear nuevo artículo</h3>
+              <form action="/registrarArticulo/" method=POST enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  Nombre: <input type="text" class="form/control" name="nombre">
+                </div>
+                <div class="mb-3">
+                  Seccion: <input type="text" class="form/control" name="seccion">
+                </div>
+                <div class="mb-3">
+                  Precio:  <input type="number" class="form/control" name="precio">
+                </div>
+                
+                <div class="mb-3">
+                  <label for="descripcion">Descripcion:</label>
+                  <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ articulo.descripcion }}">
+                </div>              
+                
+                <div class="mb-3">
+                  <div class="mb-3">
+                    Foto del articulo: <input type="file" class="form/control" name="foto_articulo">
+                  </div>
+                  
+                  <input class="btn btn-primary" type="submit" class="form/control" value="Guardar">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <table class="table table-striped table-hover">
+            <tr>
+              <th>Número</th>
+              <th>Nombre</th>
+              <th>Seccion</th>
+              <th>Precio</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+
+            {%for a in articulo%}
+
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{a.nombre}}</td>
+              <td>{{a.seccion}}</td>
+              <td>{{a.precio}}</td>
+              <td><a class="btn btn-primary" href="{% url 'editarArticulo' a.id %}">Editar</a></td>
+              <td><a class="btn btn-danger" href="{% url 'eliminarArticulo' a.id %}">Eliminar</a></td>
+            </tr>
+            {%endfor%}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <br><br><br><br>
+  </body>
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Tienda Online</span></strong
+        >. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+
+</html>
